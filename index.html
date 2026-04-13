@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pintu | Full Stack Developer</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link href="./src/style.css" rel="stylesheet" />
+    <!-- Tailwind Configuration -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Outfit', 'sans-serif'],
+            },
+            colors: {
+              accent: '#00f0ff'
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-black text-white font-sans antialiased overflow-x-hidden">
+    
+    <!-- Sticky Header (Floating Pill Style) -->
+    <header class="fixed top-6 left-1/2 transform -translate-x-1/2 w-11/12 max-w-5xl z-50 px-8 py-3 flex items-center justify-between border border-white/10 backdrop-blur-md bg-black/30 shadow-[0_4px_30px_rgba(0,0,0,0.1)] rounded-full">
+      <div class="text-xl font-bold tracking-[0.2em] text-white">PINTU<span class="text-accent text-sm ml-1">■</span></div>
+      
+      <nav class="hidden md:flex space-x-2 text-[10px] tracking-[0.3em] font-semibold text-gray-300">
+        <a href="#" class="px-5 py-3 rounded-full hover:bg-white/10 hover:text-white transition-all backdrop-blur-none hover:backdrop-blur-lg hover:shadow-[0_0_10px_rgba(255,255,255,0.1)]">HOME</a>
+        <a href="#" class="px-5 py-3 rounded-full hover:bg-white/10 hover:text-white transition-all backdrop-blur-none hover:backdrop-blur-lg hover:shadow-[0_0_10px_rgba(255,255,255,0.1)]">ABOUT</a>
+        <a href="#" class="px-5 py-3 rounded-full hover:bg-white/10 hover:text-white transition-all backdrop-blur-none hover:backdrop-blur-lg hover:shadow-[0_0_10px_rgba(255,255,255,0.1)]">SERVICES</a>
+        <a href="#" class="px-5 py-3 rounded-full hover:bg-white/10 hover:text-white transition-all backdrop-blur-none hover:backdrop-blur-lg hover:shadow-[0_0_10px_rgba(255,255,255,0.1)]">PORTFOLIO</a>
+      </nav>
+
+      <div class="flex items-center space-x-6">
+        <!-- Sun/Moon Icon Placeholder -->
+        <svg class="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        <button class="border border-white/20 px-6 py-3 text-[10px] tracking-[0.2em] hover:bg-white/10 hover:backdrop-blur-md hover:text-white transition-all rounded-full font-bold">HIRE ME</button>
+      </div>
+    </header>
+
+    <!-- Main container for scroll tie -->
+    <div id="scroll-container" class="relative w-full" style="height: 500vh;">
+      
+      <!-- Sticky container to keep canvas and UI in viewport -->
+      <div class="sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center">
+        
+        <!-- Canvas for image sequence -->
+        <canvas id="hero-canvas" class="absolute top-0 left-0 w-full h-full object-cover z-0"></canvas>
+
+        <!-- Gradient Overlay for blending edges - Darker on the left to pop the text -->
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/90 via-black/30 to-transparent z-10 pointer-events-none md:w-2/3"></div>
+
+        <!-- Left Sidebar Tech Text -->
+        <div class="absolute left-6 md:left-12 top-1/2 transform -translate-y-1/2 text-[8px] md:text-[9px] tracking-[0.2em] text-[#00f0ff] font-semibold hidden lg:flex flex-col gap-2 z-30 opacity-70">
+          <p>> SYSTEM ONLINE</p>
+          <p>> INITIALIZING PORTFOLIO v2.0</p>
+          <p>> NEURAL LINK ESTABLISHED</p>
+        </div>
+
+        <!-- Right Bottom Tech Text -->
+        <div class="absolute right-6 md:right-12 bottom-8 md:bottom-12 text-[8px] md:text-[9px] tracking-[0.2em] text-gray-400 font-semibold hidden md:flex flex-col items-end gap-1 z-30">
+          <p>SECURE.SYS_OK <span class="ml-2 text-green-500">•</span></p>
+          <p>COORDS: 87.1920_N / 21.0A0_W</p>
+        </div>
+
+        <!-- Main Hero Content -->
+        <div class="relative z-20 w-full h-full max-w-[1500px] mx-auto px-8 md:px-12 lg:px-8 pointer-events-none flex flex-col justify-start pt-28 sm:pt-40 md:pt-48 lg:pt-24">
+          
+          <!-- Restricting width keeps text on the side, preventing face overlap -->
+          <div id="hero-text" class="transform translate-y-10 opacity-0 transition-opacity duration-700 w-full md:w-1/2 lg:w-7/12">
+            <!-- Huge Single Line Text (Size Reduced) -->
+            <h1 class="text-5xl sm:text-6xl md:text-[5rem] lg:text-[7rem] xl:text-[8.5rem] font-black tracking-widest leading-none text-white drop-shadow-2xl mix-blend-screen opacity-95 relative z-10">
+              PINTU
+            </h1>
+            
+            <!-- Dynamic Info Text Role (Pushed slightly up, Water Glass style) -->
+            <div id="role-box" class="mt-4 md:mt-8 lg:mt-[42vh] relative z-20 backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-4 md:p-5 shadow-[0_4px_30px_rgba(0,240,255,0.15)] inline-block">
+              <p id="dynamic-role" class="text-xs sm:text-sm md:text-base lg:text-lg tracking-[0.3em] md:tracking-[0.4em] text-[#00f0ff] font-bold drop-shadow-md m-0">
+                FULL STACK DEVELOPER
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICES EXPERTISE SECTION (Scroll Tie Wrapper) -->
+    <div id="services-scroll-container" class="relative w-full" style="height: 300vh;">
+      
+      <!-- Sticky container for canvas and section UI -->
+      <div class="sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center">
+        
+        <!-- Canvas for image sequence from images 2 -->
+        <canvas id="services-canvas" class="absolute top-0 left-0 w-full h-full object-cover z-0"></canvas>
+
+        <!-- Gradient/Dark overlay so the white text remains readable -->
+        <div class="absolute top-0 left-0 w-full h-full bg-black/30 z-10 pointer-events-none"></div>
+
+        <section id="services-section" class="relative z-20 w-full py-12 px-8 md:px-16 lg:px-24 border-t border-white/10 overflow-hidden">
+          <!-- Background Ambient Glow -->
+          <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-3/4 h-[500px] bg-[#00f0ff] opacity-10 blur-[150px] rounded-full pointer-events-none"></div>
+
+          <div class="max-w-[1500px] mx-auto relative z-10 w-full">
+            <!-- Section Header -->
+            <div class="mb-12 lg:mb-16 text-center">
+              <h2 class="text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-widest uppercase mb-4 drop-shadow-[0_0_15px_rgba(0,240,255,0.3)]">System Capabilities</h2>
+          <p class="text-[#00f0ff] tracking-[0.4em] text-xs md:text-sm font-bold">DUAL-CORE EXPERTISE INITIATED</p>
+          </div>
+
+          <!-- Symmetrical Flip Card Layout -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-4xl mx-auto mt-4">
+          
+          <!-- LEFT COLUMN: AI DEVELOPER FLIP CARD -->
+          <div id="card-ai" class="h-[380px] lg:h-[50vh] min-h-[350px] w-full max-w-[320px] mx-auto cursor-pointer [perspective:2000px] group" onclick="this.querySelector('.flip-inner').classList.toggle('[transform:rotateY(180deg)]')">
+            <div class="flip-inner relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d]">
+              
+              <!-- FRONT PAGE: AI DEVELOPER -->
+              <div class="absolute inset-0 w-full h-full [backface-visibility:hidden] bg-transparent flex flex-col justify-center items-center text-center p-6 rounded-[2rem]">
+                <h3 class="text-2xl lg:text-3xl font-black tracking-wider text-white mb-2 drop-shadow-xl relative z-10">AI DEVELOPER</h3>
+                <p class="text-[#00f0ff] text-[10px] tracking-[0.3em] font-bold mb-6 relative z-10 drop-shadow-md">CLICK TO REVEAL</p>
+                <div class="relative w-full max-w-[140px] aspect-square rounded-2xl overflow-hidden z-10 shadow-lg">
+                  <img src="/images/ai_developer.png" alt="AI Antigravity Core" class="w-full h-full object-cover transform group-hover:scale-105 duration-700" />
+                </div>
+              </div>
+
+              <!-- BACK PAGE: AI DEVELOPER TOOLS -->
+              <div class="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] bg-black/60 backdrop-blur-md flex flex-col justify-center p-6 border border-white/10 rounded-[2rem]">
+                <h3 class="text-lg font-black tracking-widest text-[#00f0ff] mb-4 text-center uppercase border-b border-[#00f0ff]/20 pb-3">Core Systems</h3>
+                
+                <div class="flex flex-col gap-4 relative z-10 w-full">
+                  <div class="flex items-center gap-4 bg-white/5 p-3 rounded-xl border border-white/5 shadow-md">
+                    <img src="/images/ai_developer.png" class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg object-cover" />
+                    <div><h4 class="text-xs lg:text-sm font-bold text-white tracking-widest">ANTIGRAVITY</h4><p class="text-[9px] lg:text-[10px] text-gray-400 mt-1">Design & Engine</p></div>
+                  </div>
+                  <div class="flex items-center gap-4 bg-white/5 p-3 rounded-xl border border-white/5 shadow-md">
+                    <img src="/images/github.png" class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg object-cover" />
+                    <div><h4 class="text-xs lg:text-sm font-bold text-white tracking-widest">GITHUB</h4><p class="text-[9px] lg:text-[10px] text-gray-400 mt-1">Version Control</p></div>
+                  </div>
+                  <div class="flex items-center gap-4 bg-white/5 p-3 rounded-xl border border-white/5 shadow-md">
+                    <img src="/images/claude.png" class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg object-cover" />
+                    <div><h4 class="text-xs lg:text-sm font-bold text-white tracking-widest">CLAUDE AI</h4><p class="text-[9px] lg:text-[10px] text-gray-400 mt-1">Model Integration</p></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: DIGITAL MARKETER FLIP CARD -->
+          <div id="card-dm" class="h-[380px] lg:h-[50vh] min-h-[350px] w-full max-w-[320px] mx-auto cursor-pointer [perspective:2000px] group" onclick="this.querySelector('.flip-inner').classList.toggle('[transform:rotateY(180deg)]')">
+            <div class="flip-inner relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d]">
+              
+              <!-- FRONT PAGE: DIGITAL MARKETER -->
+              <div class="absolute inset-0 w-full h-full [backface-visibility:hidden] bg-transparent flex flex-col justify-center items-center text-center p-6 rounded-[2rem]">
+                <h3 class="text-2xl lg:text-3xl font-black tracking-wider text-white mb-2 drop-shadow-xl relative z-10">DIGITAL MARKETER</h3>
+                <p class="text-[#ff5e00] text-[10px] tracking-[0.3em] font-bold mb-6 relative z-10 drop-shadow-md">CLICK TO REVEAL</p>
+                <div class="relative w-full max-w-[140px] aspect-square rounded-2xl overflow-hidden z-10 shadow-lg">
+                  <img src="/images/google_ads.png" alt="Google Ads Core" class="w-full h-full object-cover transform group-hover:scale-105 duration-700" />
+                </div>
+              </div>
+
+              <!-- BACK PAGE: MARKETER TOOLS -->
+              <div class="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] bg-black/60 backdrop-blur-md flex flex-col justify-center p-6 border border-white/10 rounded-[2rem]">
+                <h3 class="text-lg font-black tracking-widest text-[#ff5e00] mb-4 text-center uppercase border-b border-[#ff5e00]/20 pb-3">Growth Engines</h3>
+                
+                <div class="flex flex-col gap-4 relative z-10 w-full">
+                  <div class="flex items-center gap-4 bg-white/5 p-3 rounded-xl border border-white/5 shadow-md">
+                    <img src="/images/google_ads.png" class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg object-cover" />
+                    <div><h4 class="text-xs lg:text-sm font-bold text-white tracking-widest">GOOGLE ADS</h4><p class="text-[9px] lg:text-[10px] text-gray-400 mt-1">Search & Display</p></div>
+                  </div>
+                  <div class="flex items-center gap-4 bg-white/5 p-3 rounded-xl border border-white/5 shadow-md">
+                    <img src="/images/facebook_ads.png" class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg object-cover" />
+                    <div><h4 class="text-xs lg:text-sm font-bold text-white tracking-widest">FACEBOOK ADS</h4><p class="text-[9px] lg:text-[10px] text-gray-400 mt-1">Social Graph Targeting</p></div>
+                  </div>
+                  <div class="flex items-center gap-4 bg-white/5 p-3 rounded-xl border border-white/5 shadow-md">
+                    <img src="/images/wordpress.png" class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg object-cover" />
+                    <div><h4 class="text-xs lg:text-sm font-bold text-white tracking-widest">WORDPRESS</h4><p class="text-[9px] lg:text-[10px] text-gray-400 mt-1">CMS & Landing Pages</p></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          </div><!-- end grid -->
+          </div><!-- end max-w container -->
+        </section>
+      </div>
+    </div>
+
+    <!-- ===================== SKILLS SECTION ===================== -->
+    <section id="skills-section" class="relative w-full py-24 px-8 md:px-16 lg:px-24 bg-black overflow-hidden">
+      <!-- Ambient background glows -->
+      <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#00f0ff] opacity-5 blur-[180px] rounded-full pointer-events-none"></div>
+      <div class="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-purple-500 opacity-5 blur-[160px] rounded-full pointer-events-none"></div>
+
+      <div class="max-w-[1300px] mx-auto relative z-10">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+          <p class="text-[#00f0ff] tracking-[0.5em] text-xs font-bold mb-3">TECHNICAL ARSENAL</p>
+          <h2 class="text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-widest uppercase drop-shadow-[0_0_15px_rgba(0,240,255,0.3)]">Skills & Tools</h2>
+          <div class="mt-4 w-24 h-[2px] bg-gradient-to-r from-transparent via-[#00f0ff] to-transparent mx-auto"></div>
+        </div>
+
+        <!-- Skills Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+
+          <!-- LEFT: Dev Skills -->
+          <div>
+            <h3 class="text-sm tracking-[0.4em] text-[#00f0ff] font-bold mb-8 uppercase">Development</h3>
+            <div class="flex flex-col gap-6" id="dev-skills">
+              <!-- Skill Item -->
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-white font-semibold text-sm tracking-widest">React / Next.js</span>
+                  <span class="text-[#00f0ff] text-sm font-bold">90%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="skill-bar h-full bg-gradient-to-r from-[#00f0ff] to-[#0080ff] rounded-full" data-width="90%" style="width:0%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-white font-semibold text-sm tracking-widest">Node.js / Express</span>
+                  <span class="text-[#00f0ff] text-sm font-bold">85%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="skill-bar h-full bg-gradient-to-r from-[#00f0ff] to-[#0080ff] rounded-full" data-width="85%" style="width:0%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-white font-semibold text-sm tracking-widest">Python / AI & ML</span>
+                  <span class="text-[#00f0ff] text-sm font-bold">80%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="skill-bar h-full bg-gradient-to-r from-[#00f0ff] to-[#0080ff] rounded-full" data-width="80%" style="width:0%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-white font-semibold text-sm tracking-widest">MongoDB / SQL</span>
+                  <span class="text-[#00f0ff] text-sm font-bold">78%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="skill-bar h-full bg-gradient-to-r from-[#00f0ff] to-[#0080ff] rounded-full" data-width="78%" style="width:0%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-white font-semibold text-sm tracking-widest">HTML / CSS / Tailwind</span>
+                  <span class="text-[#00f0ff] text-sm font-bold">95%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="skill-bar h-full bg-gradient-to-r from-[#00f0ff] to-[#0080ff] rounded-full" data-width="95%" style="width:0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Marketing Skills -->
+          <div>
+            <h3 class="text-sm tracking-[0.4em] text-[#ff5e00] font-bold mb-8 uppercase">Digital Marketing</h3>
+            <div class="flex flex-col gap-6" id="mkt-skills">
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-white font-semibold text-sm tracking-widest">Google Ads</span>
+                  <span class="text-[#ff5e00] text-sm font-bold">92%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="skill-bar-orange h-full bg-gradient-to-r from-[#ff5e00] to-[#ff9a00] rounded-full" data-width="92%" style="width:0%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-white font-semibold text-sm tracking-widest">Facebook / Meta Ads</span>
+                  <span class="text-[#ff5e00] text-sm font-bold">88%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="skill-bar-orange h-full bg-gradient-to-r from-[#ff5e00] to-[#ff9a00] rounded-full" data-width="88%" style="width:0%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-white font-semibold text-sm tracking-widest">SEO / SEM</span>
+                  <span class="text-[#ff5e00] text-sm font-bold">82%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="skill-bar-orange h-full bg-gradient-to-r from-[#ff5e00] to-[#ff9a00] rounded-full" data-width="82%" style="width:0%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-white font-semibold text-sm tracking-widest">WordPress / WooCommerce</span>
+                  <span class="text-[#ff5e00] text-sm font-bold">85%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="skill-bar-orange h-full bg-gradient-to-r from-[#ff5e00] to-[#ff9a00] rounded-full" data-width="85%" style="width:0%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="flex justify-between mb-2">
+                  <span class="text-white font-semibold text-sm tracking-widest">Content Strategy</span>
+                  <span class="text-[#ff5e00] text-sm font-bold">79%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="skill-bar-orange h-full bg-gradient-to-r from-[#ff5e00] to-[#ff9a00] rounded-full" data-width="79%" style="width:0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Tool Icons Row -->
+        <div class="mt-20">
+          <p class="text-center text-xs tracking-[0.5em] text-gray-500 mb-10 uppercase">Technologies I Work With</p>
+          <div class="flex flex-wrap justify-center gap-6 md:gap-10">
+            <div class="tool-chip flex flex-col items-center gap-2 group cursor-default">
+              <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-[#00f0ff]/40 group-hover:bg-[#00f0ff]/5 transition-all duration-300">
+                <img src="/images/github.png" class="w-8 h-8 object-contain" alt="GitHub" />
+              </div>
+              <span class="text-[9px] tracking-[0.2em] text-gray-500 group-hover:text-[#00f0ff] transition-colors">GITHUB</span>
+            </div>
+            <div class="tool-chip flex flex-col items-center gap-2 group cursor-default">
+              <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-[#00f0ff]/40 group-hover:bg-[#00f0ff]/5 transition-all duration-300">
+                <img src="/images/claude.png" class="w-8 h-8 object-contain" alt="Claude AI" />
+              </div>
+              <span class="text-[9px] tracking-[0.2em] text-gray-500 group-hover:text-[#00f0ff] transition-colors">CLAUDE AI</span>
+            </div>
+            <div class="tool-chip flex flex-col items-center gap-2 group cursor-default">
+              <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-[#ff5e00]/40 group-hover:bg-[#ff5e00]/5 transition-all duration-300">
+                <img src="/images/google_ads.png" class="w-8 h-8 object-contain" alt="Google Ads" />
+              </div>
+              <span class="text-[9px] tracking-[0.2em] text-gray-500 group-hover:text-[#ff5e00] transition-colors">GOOGLE ADS</span>
+            </div>
+            <div class="tool-chip flex flex-col items-center gap-2 group cursor-default">
+              <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-[#ff5e00]/40 group-hover:bg-[#ff5e00]/5 transition-all duration-300">
+                <img src="/images/facebook_ads.png" class="w-8 h-8 object-contain" alt="Meta Ads" />
+              </div>
+              <span class="text-[9px] tracking-[0.2em] text-gray-500 group-hover:text-[#ff5e00] transition-colors">META ADS</span>
+            </div>
+            <div class="tool-chip flex flex-col items-center gap-2 group cursor-default">
+              <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-[#ff5e00]/40 group-hover:bg-[#ff5e00]/5 transition-all duration-300">
+                <img src="/images/wordpress.png" class="w-8 h-8 object-contain" alt="WordPress" />
+              </div>
+              <span class="text-[9px] tracking-[0.2em] text-gray-500 group-hover:text-[#ff5e00] transition-colors">WORDPRESS</span>
+            </div>
+            <div class="tool-chip flex flex-col items-center gap-2 group cursor-default">
+              <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-[#00f0ff]/40 group-hover:bg-[#00f0ff]/5 transition-all duration-300">
+                <img src="/images/ai_developer.png" class="w-8 h-8 object-contain" alt="AI Dev" />
+              </div>
+              <span class="text-[9px] tracking-[0.2em] text-gray-500 group-hover:text-[#00f0ff] transition-colors">AI ENGINE</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== ABOUT / CONTACT SECTION (above footer) ===================== -->
+    <section id="about-section" class="relative w-full min-h-screen py-24 px-8 md:px-16 lg:px-24 bg-black overflow-hidden flex items-center">
+      <!-- Cinematic glow backgrounds -->
+      <div class="absolute inset-0 bg-gradient-to-b from-black via-[#00f0ff]/3 to-black pointer-events-none"></div>
+      <div class="absolute top-1/3 right-0 w-[600px] h-[600px] bg-[#00f0ff] opacity-5 blur-[200px] rounded-full pointer-events-none"></div>
+      <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-600 opacity-4 blur-[160px] rounded-full pointer-events-none"></div>
+
+      <!-- Decorative horizontal line top -->
+      <div class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+      <div class="max-w-[1300px] mx-auto relative z-10 w-full">
+
+        <!-- Section Label -->
+        <div class="mb-14">
+          <p class="text-[#00f0ff] tracking-[0.5em] text-xs font-bold mb-2">SYSTEM PROFILE_v2.0</p>
+          <h2 class="text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-widest uppercase drop-shadow-[0_0_15px_rgba(0,240,255,0.3)]">About Me</h2>
+        </div>
+
+        <!-- 2-Column Layout: LEFT info | RIGHT image -->
+        <div class="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
+
+          <!-- LEFT: Details Block -->
+          <div class="flex-1 order-2 lg:order-1">
+            <!-- Bio Text -->
+            <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-8 font-light">
+              Hi, I'm <span class="text-white font-bold">Pintu</span> — a passionate <span class="text-[#00f0ff] font-semibold">Full Stack Developer</span> and <span class="text-[#ff5e00] font-semibold">Digital Marketing Strategist</span> who blends cutting-edge AI tools with data-driven growth strategies. I build immersive digital experiences that convert.
+            </p>
+
+            <!-- Stat Cards Row -->
+            <div class="grid grid-cols-3 gap-4 mb-10">
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:border-[#00f0ff]/30 hover:bg-[#00f0ff]/5 transition-all duration-300">
+                <p class="text-2xl md:text-3xl font-black text-[#00f0ff]">3+</p>
+                <p class="text-[10px] tracking-[0.2em] text-gray-400 mt-1">Years Exp.</p>
+              </div>
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:border-[#00f0ff]/30 hover:bg-[#00f0ff]/5 transition-all duration-300">
+                <p class="text-2xl md:text-3xl font-black text-[#00f0ff]">50+</p>
+                <p class="text-[10px] tracking-[0.2em] text-gray-400 mt-1">Projects</p>
+              </div>
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:border-[#ff5e00]/30 hover:bg-[#ff5e00]/5 transition-all duration-300">
+                <p class="text-2xl md:text-3xl font-black text-[#ff5e00]">20+</p>
+                <p class="text-[10px] tracking-[0.2em] text-gray-400 mt-1">Clients</p>
+              </div>
+            </div>
+
+            <!-- Info List -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+              <div class="flex items-start gap-3">
+                <span class="text-[#00f0ff] text-lg mt-0.5">►</span>
+                <div>
+                  <p class="text-[10px] tracking-[0.3em] text-gray-500 uppercase">Name</p>
+                  <p class="text-white font-semibold text-sm tracking-wide">Pintu</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="text-[#00f0ff] text-lg mt-0.5">►</span>
+                <div>
+                  <p class="text-[10px] tracking-[0.3em] text-gray-500 uppercase">Role</p>
+                  <p class="text-white font-semibold text-sm tracking-wide">Full Stack Dev & Marketer</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="text-[#00f0ff] text-lg mt-0.5">►</span>
+                <div>
+                  <p class="text-[10px] tracking-[0.3em] text-gray-500 uppercase">Email</p>
+                  <p class="text-white font-semibold text-sm tracking-wide">pintu@example.com</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="text-[#00f0ff] text-lg mt-0.5">►</span>
+                <div>
+                  <p class="text-[10px] tracking-[0.3em] text-gray-500 uppercase">Location</p>
+                  <p class="text-white font-semibold text-sm tracking-wide">India</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="text-[#00f0ff] text-lg mt-0.5">►</span>
+                <div>
+                  <p class="text-[10px] tracking-[0.3em] text-gray-500 uppercase">Availability</p>
+                  <p class="text-[#00f0ff] font-bold text-sm tracking-wide">Open to Work ✓</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="text-[#00f0ff] text-lg mt-0.5">►</span>
+                <div>
+                  <p class="text-[10px] tracking-[0.3em] text-gray-500 uppercase">Languages</p>
+                  <p class="text-white font-semibold text-sm tracking-wide">Hindi, English</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4">
+              <!-- Resume Download Button -->
+              <a href="/resume.pdf" download id="resume-download-btn"
+                class="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#00f0ff] text-black font-black text-xs tracking-[0.3em] rounded-full overflow-hidden hover:shadow-[0_0_30px_rgba(0,240,255,0.5)] transition-all duration-300 hover:scale-105 active:scale-95">
+                <span class="relative z-10 flex items-center gap-2">
+                  <svg class="w-4 h-4 group-hover:animate-bounce" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
+                  DOWNLOAD RESUME
+                </span>
+                <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+              </a>
+              <!-- Hire Me Button -->
+              <a href="mailto:pintu@example.com" id="hire-me-btn"
+                class="inline-flex items-center justify-center gap-3 px-8 py-4 border border-white/20 text-white font-black text-xs tracking-[0.3em] rounded-full hover:border-[#00f0ff]/50 hover:bg-[#00f0ff]/5 hover:shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all duration-300 hover:scale-105 active:scale-95">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                HIRE ME
+              </a>
+            </div>
+          </div>
+
+          <!-- RIGHT: Profile Image -->
+          <div class="order-1 lg:order-2 relative flex-shrink-0">
+            <!-- Decorative rings -->
+            <div class="absolute inset-0 -m-4 rounded-full border border-[#00f0ff]/10 animate-[spin_20s_linear_infinite]"></div>
+            <div class="absolute inset-0 -m-8 rounded-full border border-white/5 animate-[spin_30s_linear_infinite_reverse]"></div>
+
+            <!-- Glow halo behind image -->
+            <div class="absolute inset-0 bg-[#00f0ff] opacity-10 blur-[80px] rounded-full scale-110"></div>
+
+            <!-- Profile image container -->
+            <div class="relative w-[260px] h-[320px] md:w-[300px] md:h-[370px] lg:w-[340px] lg:h-[420px] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-[0_0_60px_rgba(0,240,255,0.15)]">
+              <img
+                src="/images/profile.png"
+                alt="Pintu - Full Stack Developer & Digital Marketer"
+                class="w-full h-full object-cover object-top"
+              />
+              <!-- Gradient overlay bottom to blend -->
+              <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/60 to-transparent"></div>
+
+              <!-- Name badge on image -->
+              <div class="absolute bottom-4 left-4 right-4 bg-black/50 backdrop-blur-md border border-white/10 rounded-xl px-4 py-2">
+                <p class="text-white font-black text-sm tracking-[0.2em]">PINTU</p>
+                <p class="text-[#00f0ff] text-[9px] tracking-[0.3em] font-bold">FULL STACK DEV · AI ENGINEER · MARKETER</p>
+              </div>
+            </div>
+
+            <!-- Floating accent dots -->
+            <div class="absolute -top-3 -right-3 w-3 h-3 rounded-full bg-[#00f0ff] animate-pulse shadow-[0_0_10px_rgba(0,240,255,0.8)]"></div>
+            <div class="absolute -bottom-3 -left-3 w-2 h-2 rounded-full bg-[#ff5e00] animate-pulse shadow-[0_0_8px_rgba(255,94,0,0.8)]"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="relative w-full bg-black border-t border-white/10 py-10 px-8 md:px-16">
+      <div class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#00f0ff]/30 to-transparent"></div>
+      <div class="max-w-[1300px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-2">
+          <span class="text-white font-black text-lg tracking-[0.3em]">PINTU</span>
+          <span class="text-[#00f0ff] text-xs">■</span>
+        </div>
+        <p class="text-gray-600 text-xs tracking-[0.3em]">© 2025 PINTU. ALL RIGHTS RESERVED.</p>
+        <div class="flex items-center gap-6 text-xs tracking-[0.3em] text-gray-500">
+          <a href="#" class="hover:text-[#00f0ff] transition-colors">GITHUB</a>
+          <a href="#" class="hover:text-[#00f0ff] transition-colors">LINKEDIN</a>
+          <a href="mailto:pintu@example.com" class="hover:text-[#00f0ff] transition-colors">EMAIL</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- GSAP via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Main JS logic -->
+    <script src="./src/main.js"></script>
+  </body>
+</html>
